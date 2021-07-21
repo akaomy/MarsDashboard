@@ -2,6 +2,7 @@ let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    roversData: ''
 }
 
 // add our markup to the page
@@ -53,27 +54,21 @@ window.addEventListener('load', () => {
 // Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
 const Greeting = (name) => {
     if (name) {
-        return `
-            <h1>Welcome, ${name}!</h1>
-        `
+        return `<h1>Welcome, ${name}!</h1>`
     }
 
-    return `
-        <h1>Hello!</h1>
-    `
+    return `<h1>Hello!</h1>`
 }
 
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (apod) => {
 
     // If image does not already exist, or it is not from today -- request it again
-    const today = new Date()
-    const photodate = new Date(apod.date)
-    console.log(photodate.getDate(), today.getDate());
+    const today = new Date();
+    const photodate = new Date(apod.date);
 
-    console.log(photodate.getDate() === today.getDate());
     if (!apod || apod.date === today.getDate() ) {
-        getImageOfTheDay(store)
+        getImageOfTheDay(store);
     }
 
     // check if the photo of the day is actually type video!
@@ -91,15 +86,31 @@ const ImageOfTheDay = (apod) => {
     }
 }
 
+const outputsAllRowersInfo = (rovers) => {
+    getRoversData(store);
+    console.log(rovers)
+}
+
 // ------------------------------------------------------  API CALLS
 
 // Example API call
 const getImageOfTheDay = (state) => {
     let { apod } = state
 
-    fetch(`http://localhost:3000/apod`)
+    fetch(`http://localhost:3010/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
+
+    return data
+}
+
+// get all rowers info
+const getRoversData = (state) => {
+    let { rovers } = state
+
+    fetch(`http://localhost:3010/rovers`)
+        .then(res => res.json())
+        .then(rovers => updateStore(store, { rovers }))
 
     return data
 }
