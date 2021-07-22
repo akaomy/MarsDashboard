@@ -1,5 +1,4 @@
 require('dotenv').config({ path: '../../.env'})
-console.log(process.env);
 const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
@@ -18,19 +17,18 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 // example API call
 app.get('/apod', async (req, res) => {
     try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
+        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`).then(res => res.json())
         res.send({ image })
     } catch (err) {
         console.log('error:', err)
     }
 })
-app.get('/rovers', async (req, res) => {
+
+app.get('/rovers/curiosity/photos', async (req, res) => {
     try {
-        let rovers = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers?api_key=${process.env.API_KEY}`)
+        const roverCuriosityPhotos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
-        res.send({ rovers })
-        console.log('res rovers', rovers)
+        res.send(roverCuriosityPhotos)
     } catch (err) {
         console.log('error:', err)
     }
