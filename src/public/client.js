@@ -2,7 +2,7 @@ let store = {
     user: { name: "Student" },
     apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
-    roversData: ''
+    roversImgData: ''
 }
 
 // add our markup to the page
@@ -20,7 +20,7 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { rovers, apod } = state
+    let { apod } = state
 
     return `
         <header></header>
@@ -104,13 +104,13 @@ const getImageOfTheDay = (state) => {
     return data
 }
 
-// get all rowers info
-const getRoversData = (state) => {
-    let { rovers } = state
+const getCuriosityRover = () => {
+    let { roversImgData } = state
 
-    fetch(`http://localhost:3010/rovers`)
+    fetch(`http://localhost:3010/rovers/curiosity/photos`)
         .then(res => res.json())
-        .then(rovers => updateStore(store, { rovers }))
+        .then(roversImgData => updateStore(store, { roversImgData }))
 
-    return data
+    return imgData
 }
+
